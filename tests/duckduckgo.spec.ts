@@ -4,7 +4,7 @@ import { before } from 'node:test';
 test.beforeEach(async ({ page, browserName, headless }) => {
   test.skip(browserName == 'chromium' && headless, 'Duckduckgo does not work in headless Chrome for some reason.');
 
-  await page.goto('https://duckduckgo.com/');
+  await page.goto('https://start.duckduckgo.com/');
 });
 
 test('search returns results with underdog', async ({ page }) => {
@@ -12,7 +12,7 @@ test('search returns results with underdog', async ({ page }) => {
   await page.getByRole('button', { name: 'Search', exact: true }).click();
   await page.getByRole('button', { name: 'More results' }).scrollIntoViewIfNeeded();
   await expect(page.locator('article', { hasText: /underdog/i })).toHaveCount(20);
-  expect(page.url()).toBe('https://duckduckgo.com/?t=h_&q=underdog&ia=web');
+  expect(page.url()).toBe('https://duckduckgo.com/?t=h_&hps=1&start=1&q=underdog&ia=web');
 });
 
 test('search with GET request disabled', async({ page }) => {
@@ -25,7 +25,7 @@ test('search with GET request disabled', async({ page }) => {
   await page.getByRole('button', { name: 'Search', exact: true }).click();
   await page.getByRole('button', { name: 'More results' }).scrollIntoViewIfNeeded();
   await expect(page.locator('article', { hasText: /underdog/i })).toHaveCount(20);
-  expect(page.url()).toBe('https://duckduckgo.com/');
+  expect(page.url()).toBe('https://duckduckgo.com/?ia=web');
 });
 
 test('search with private reminder off', async({ page }) => {
